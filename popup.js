@@ -17,8 +17,10 @@ function fmtTime(ms) {
 }
 
 function thumbHtml(alert) {
-  if (alert.fileDataUrl) {
-    return `<img src="${alert.fileDataUrl}" alt="" />`;
+  // fileUrl (extension asset) takes priority, then fileDataUrl (user upload)
+  const imageUrl = alert.fileUrl ? chrome.runtime.getURL(alert.fileUrl) : alert.fileDataUrl;
+  if (imageUrl) {
+    return `<img src="${imageUrl}" alt="" />`;
   }
   return alert.name.toLowerCase().includes("water") ? "💧" : "⏰";
 }

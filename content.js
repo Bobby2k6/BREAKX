@@ -45,12 +45,19 @@
     card.className = "breakex-card";
     card.dataset.id = alert.id;
 
+    // Resolve image URL: fileUrl (extension asset) takes priority, then fileDataUrl (user upload)
+    const imageUrl = alert.fileUrl ? chrome.runtime.getURL(alert.fileUrl) : alert.fileDataUrl;
+
     let mediaHtml = "";
-    if (alert.fileDataUrl) {
-      if (alert.fileType === "gif") {
-        mediaHtml = `<div class="breakex-media"><img src="${alert.fileDataUrl}" class="breakex-gif" alt=""/></div>`;
+    if (imageUrl) {
+      const isGif = alert.fileType === "gif" || imageUrl.endsWith(".gif");
+      const isSvg = alert.fileType === "svg" || imageUrl.endsWith(".svg");
+      if (isGif) {
+        mediaHtml = `<div class="breakex-media"><img src="${imageUrl}" class="breakex-gif" alt=""/></div>`;
+      } else if (isSvg) {
+        mediaHtml = `<div class="breakex-media"><img src="${imageUrl}" class="breakex-svg" alt=""/></div>`;
       } else {
-        mediaHtml = `<div class="breakex-media"><img src="${alert.fileDataUrl}" class="breakex-fade-img" alt=""/></div>`;
+        mediaHtml = `<div class="breakex-media"><img src="${imageUrl}" class="breakex-fade-img" alt=""/></div>`;
       }
     } else {
       mediaHtml = `<div class="breakex-media breakex-media-emoji"><span>⏰</span></div>`;

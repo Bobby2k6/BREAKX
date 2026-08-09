@@ -16,6 +16,7 @@ const listEl = document.getElementById("alertsList");
 let alerts = [];
 let pendingFileDataUrl = undefined; // undefined = unchanged, null = cleared, string = new file
 let pendingFileType = undefined;
+let pendingFileUrl = undefined; // for extension asset URLs
 
 function escapeHtml(str) {
   const div = document.createElement("div");
@@ -44,8 +45,10 @@ function renderList() {
 
   listEl.innerHTML = alerts
     .map((a) => {
-      const thumb = a.fileDataUrl
-        ? `<img src="${a.fileDataUrl}" alt="" />`
+      // Resolve thumbnail: fileUrl (extension asset) > fileDataUrl (user upload) > emoji fallback
+      const thumbUrl = a.fileUrl ? chrome.runtime.getURL(a.fileUrl) : a.fileDataUrl;
+      const thumb = thumbUrl
+        ? `<img src="${thumbUrl}" alt="" />`
         : a.name.toLowerCase().includes("water")
         ? "💧"
         : "⏰";
@@ -73,11 +76,15 @@ function startEdit(alert) {
   durationInput.value = alert.durationMinutes;
   pendingFileDataUrl = undefined;
   pendingFileType = undefined;
+  // Also track fileUrl for default assets
+  pendingFileUrl = alert.fileUrl || undefined;
   fileInput.value = "";
 
-  if (alert.fileDataUrl) {
+  // Show preview for either fileUrl (default asset) or fileDataUrl (user upload)
+  const previewUrl = alert.fileUrl ? chrome.runtime.getURL(alert.fileUrl) : alert.fileDataUrl;
+  if (previewUrl) {
     filePreview.hidden = false;
-    filePreviewImg.src = alert.fileDataUrl;
+    filePreviewImg.src = previewUrl;
   } else {
     filePreview.hidden = true;
   }
@@ -96,6 +103,7 @@ function resetForm() {
   // The form is now in "add new" mode, so no file should be attached.
   pendingFileDataUrl = undefined;
   pendingFileType = undefined;
+  pendingFileUrl = undefined;
   fileInput.value = "";
   filePreview.hidden = true;
   filePreviewImg.src = "";
@@ -112,6 +120,8 @@ fileInput.addEventListener("change", () => {
   reader.onload = () => {
     pendingFileDataUrl = reader.result;
     pendingFileType = file.type === "image/gif" ? "gif" : "image";
+    // Clear any pending fileUrl when user uploads a new file
+    pendingFileUrl = undefined;
     filePreview.hidden = false;
     filePreviewImg.src = pendingFileDataUrl;
   };
@@ -122,6 +132,7 @@ clearFileBtn.addEventListener("click", () => {
   // Set to null to explicitly indicate "user wants to remove the file"
   pendingFileDataUrl = null;
   pendingFileType = null;
+  pendingFileUrl = null;
   fileInput.value = "";
   filePreviewImg.src = "";
   filePreview.hidden = true;
@@ -157,6 +168,10 @@ form.addEventListener("submit", async (e) => {
   if (pendingFileDataUrl !== undefined) {
     alertPayload.fileDataUrl = pendingFileDataUrl; // null or string
     alertPayload.fileType = pendingFileType; // null or string
+  }
+  // pendingFileUrl for extension assets (default alerts)
+  if (pendingFileUrl !== undefined) {
+    alertPayload.fileUrl = pendingFileUrl; // null or string
   }
 
   const res = await chrome.runtime.sendMessage({ type: "SAVE_ALERT", alert: alertPayload });

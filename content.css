@@ -69,6 +69,13 @@
   animation: breakex-img-fade 1.4s ease forwards;
 }
 
+#breakex-container .breakex-svg {
+  /* SVG animations (SMIL) run natively, no fade needed */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 @keyframes breakex-img-fade {
   from {
     opacity: 0;

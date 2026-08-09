@@ -12,9 +12,9 @@ const DEFAULT_ALERTS = [
   {
     id: "default-screen-break",
     name: "Screen Break",
-    durationMinutes: 20,
-    fileDataUrl: null,
-    fileType: null,
+    durationMinutes: 60,
+    fileUrl: "assets/screen-break.svg",
+    fileType: "svg",
     isDefault: true,
     active: true,
     endTime: 0
@@ -22,9 +22,9 @@ const DEFAULT_ALERTS = [
   {
     id: "default-water-break",
     name: "Water Break",
-    durationMinutes: 45,
-    fileDataUrl: null,
-    fileType: null,
+    durationMinutes: 20,
+    fileUrl: "assets/water-break.svg",
+    fileType: "svg",
     isDefault: true,
     active: true,
     endTime: 0
@@ -217,7 +217,7 @@ async function tryForwardActiveAlertsToTab(tabId) {
 
     const sent = await sendToTab(tabId, {
       type: "BREAKEX_SHOW",
-      alert: { id: alert.id, name: alert.name, fileDataUrl: alert.fileDataUrl, fileType: alert.fileType }
+      alert: { id: alert.id, name: alert.name, fileUrl: alert.fileUrl, fileDataUrl: alert.fileDataUrl, fileType: alert.fileType }
     });
     if (sent) anySent = true;
   }
@@ -258,6 +258,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       alert: {
         id: alert.id,
         name: alert.name,
+        fileUrl: alert.fileUrl,
         fileDataUrl: alert.fileDataUrl,
         fileType: alert.fileType
       }
@@ -338,6 +339,7 @@ async function handleMessage(message, sender) {
           id: incoming.id || genId(),
           name: incoming.name,
           durationMinutes: incoming.durationMinutes,
+          fileUrl: incoming.fileUrl || null,
           fileDataUrl: incoming.fileDataUrl || null,
           fileType: incoming.fileType || null,
           isDefault: false,
@@ -355,6 +357,7 @@ async function handleMessage(message, sender) {
           name: incoming.name,
           durationMinutes: incoming.durationMinutes,
           // Only overwrite the file if a new one was actually provided.
+          fileUrl: incoming.fileUrl !== undefined ? incoming.fileUrl : existing.fileUrl,
           fileDataUrl: incoming.fileDataUrl !== undefined ? incoming.fileDataUrl : existing.fileDataUrl,
           fileType: incoming.fileType !== undefined ? incoming.fileType : existing.fileType,
           endTime: durationChanged ? now + incoming.durationMinutes * 60000 : existing.endTime
