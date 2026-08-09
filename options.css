@@ -1,0 +1,347 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f1017;
+  color: #f2f3f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.brx-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.brx-o-header {
+  margin-bottom: 24px;
+}
+
+.brx-o-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.brx-logo-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1c8e7a, #1f6fa8);
+  box-shadow: 0 0 10px rgba(31, 111, 168, 0.7);
+}
+
+.brx-o-header p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13.5px;
+}
+
+.brx-o-panel {
+  background: #171923;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 22px 22px 24px;
+  margin-bottom: 22px;
+}
+
+.brx-o-panel h2 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.brx-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.brx-field input[type="text"],
+.brx-field input[type="number"] {
+  background: #0f1017;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #f2f3f7;
+  font-size: 14px;
+}
+
+.brx-field input[type="file"] {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+}
+
+.brx-field input:focus {
+  outline: none;
+  border-color: #1f6fa8;
+}
+
+.brx-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -6px 0 16px;
+}
+
+.brx-preview img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: repeating-conic-gradient(#232431 0% 25%, #1a1b24 0% 50%) 0 0 / 12px 12px;
+}
+
+.brx-link-btn {
+  background: none;
+  border: none;
+  color: #ff8080;
+  font-size: 12.5px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.brx-form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.brx-primary-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1c8e7a 0%, #1f6fa8 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.brx-primary-btn:hover {
+  filter: brightness(1.08);
+}
+
+.brx-secondary-btn {
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background: transparent;
+  color: #f2f3f7;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.brx-o-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brx-o-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #0f1017;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+}
+
+.brx-o-row .brx-o-thumb {
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.brx-o-row .brx-o-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brx-o-row .brx-o-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.brx-o-row .brx-o-name {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+.brx-o-row .brx-o-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+}
+
+.brx-o-row .brx-o-badge {
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(31, 111, 168, 0.25);
+  color: #8fc2e8;
+  margin-left: 6px;
+}
+
+.brx-o-row-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.brx-o-row-actions button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f2f3f7;
+  cursor: pointer;
+}
+
+.brx-o-row-actions button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.brx-empty-note {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  padding: 8px 2px;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 680px) {
+  .brx-wrap {
+    padding: 20px 16px 40px;
+    max-width: 100%;
+  }
+
+  .brx-o-panel {
+    padding: 18px 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .brx-o-panel h2 {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .brx-field {
+    margin-bottom: 14px;
+    gap: 5px;
+  }
+
+  .brx-field input[type="text"],
+  .brx-field input[type="number"] {
+    padding: 12px 14px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .brx-preview {
+    gap: 10px;
+    margin: -4px 0 14px;
+  }
+
+  .brx-preview img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .brx-form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .brx-primary-btn,
+  .brx-secondary-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .brx-o-row {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .brx-o-row .brx-o-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+  }
+
+  .brx-o-row .brx-o-name {
+    font-size: 13px;
+  }
+
+  .brx-o-row .brx-o-sub {
+    font-size: 11.5px;
+  }
+
+  .brx-o-row-actions button {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 420px) {
+  .brx-wrap {
+    padding: 16px 12px 32px;
+  }
+
+  .brx-o-header {
+    margin-bottom: 18px;
+  }
+
+  .brx-o-logo {
+    font-size: 20px;
+  }
+
+  .brx-logo-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .brx-o-panel {
+    padding: 16px 12px 18px;
+  }
+
+  .brx-field input[type="text"],
+  .brx-field input[type="number"] {
+    padding: 14px 14px;
+  }
+
+  .brx-preview img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Ensure form inputs don't overflow on very narrow screens */
+@media (max-width: 360px) {
+  .brx-field input[type="text"],
+  .brx-field input[type="number"] {
+    padding: 12px 12px;
+    font-size: 15px;
+  }
+}

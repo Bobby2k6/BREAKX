@@ -1,0 +1,161 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #14151f;
+  color: #f2f3f7;
+}
+
+.brx-header {
+  padding: 16px 18px 12px;
+  background: linear-gradient(135deg, #1c8e7a 0%, #1f6fa8 100%);
+}
+
+.brx-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brx-logo-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.brx-logo-text {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.brx-tagline {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.brx-list {
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 10px 12px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brx-empty {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  padding: 24px 8px;
+}
+
+.brx-card {
+  background: #1d1f2b;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brx-card.is-paused {
+  opacity: 0.55;
+}
+
+.brx-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.brx-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brx-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.brx-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brx-timeleft {
+  font-size: 12px;
+  color: #7fe3c3;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+.brx-card.is-paused .brx-timeleft {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.brx-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.brx-icon-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f2f3f7;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brx-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.brx-footer {
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brx-add-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1c8e7a 0%, #1f6fa8 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.brx-add-btn:hover {
+  filter: brightness(1.08);
+}

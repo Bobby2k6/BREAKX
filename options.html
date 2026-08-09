@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BREAKEX Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="brx-wrap">
+    <header class="brx-o-header">
+      <div class="brx-o-logo">
+        <span class="brx-logo-dot"></span>
+        BREAKEX
+      </div>
+      <p>Pause. Refresh. Continue. — manage your break reminders.</p>
+    </header>
+
+    <section class="brx-o-panel">
+      <h2 id="formTitle">Add a new break</h2>
+      <form id="alertForm">
+        <input type="hidden" id="alertId" />
+
+        <label class="brx-field">
+          <span>Alert name</span>
+          <input type="text" id="alertName" placeholder="e.g. Stretch Break" required maxlength="40" />
+        </label>
+
+        <label class="brx-field">
+          <span>Remind me every (minutes)</span>
+          <input type="number" id="alertDuration" min="1" max="600" placeholder="e.g. 30" required />
+        </label>
+
+        <label class="brx-field">
+          <span>Animation / image (optional — GIF or image, ideally transparent background)</span>
+          <input type="file" id="alertFile" accept="image/*" />
+        </label>
+
+        <div class="brx-preview" id="filePreview" hidden>
+          <img id="filePreviewImg" alt="preview" />
+          <button type="button" id="clearFileBtn" class="brx-link-btn">Remove file</button>
+        </div>
+
+        <div class="brx-form-actions">
+          <button type="submit" class="brx-primary-btn" id="submitBtn">Save Break</button>
+          <button type="button" class="brx-secondary-btn" id="cancelEditBtn" hidden>Cancel edit</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="brx-o-panel">
+      <h2>Your breaks</h2>
+      <div id="alertsList" class="brx-o-list"></div>
+    </section>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
