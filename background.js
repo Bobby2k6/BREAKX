@@ -440,6 +440,16 @@ async function handleMessage(message, sender) {
       return { ok: true };
     }
 
+    case "RESET_ALERT": {
+      const idx = alerts.findIndex((a) => a.id === message.id);
+      if (idx !== -1) {
+        alerts[idx] = { ...alerts[idx], endTime: Date.now() + alerts[idx].durationMinutes * 60000 };
+        await saveAlerts(alerts);
+        await scheduleAlarm(alerts[idx]);
+      }
+      return { ok: true };
+    }
+
     case "BREAKEX_SNOOZE": {
       const idx = alerts.findIndex((a) => a.id === message.id);
       if (idx !== -1) {

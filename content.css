@@ -1,3 +1,75 @@
+/* BREAKEX Content Script Styles — Design Token System */
+
+:root {
+  /* Primitive - Brand */
+  --brand-teal: #14b8a6;
+  --brand-teal-600: #0d9488;
+  --brand-blue: #3b82f6;
+  --brand-gradient: linear-gradient(135deg, var(--brand-teal), var(--brand-blue));
+
+  /* Primitive - Neutral Dark */
+  --bg-deep: #0a0f14;
+  --bg-elevated: #111822;
+  --bg-hover: #1a2332;
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-focus: var(--brand-teal);
+
+  /* Primitive - Text */
+  --fg-primary: #f1f5f9;
+  --fg-secondary: #94a3b8;
+  --fg-muted: #64748b;
+
+  /* Semantic */
+  --color-bg: var(--bg-deep);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-border: var(--border-subtle);
+  --color-border-focus: var(--border-focus);
+  --color-fg: var(--fg-primary);
+  --color-fg-dim: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-brand: var(--brand-teal);
+  --color-brand-hover: var(--brand-teal-600);
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+
+  /* Component - Buttons */
+  --btn-primary-bg: var(--color-success);
+  --btn-primary-fg: #fff;
+  --btn-secondary-bg: var(--bg-elevated);
+  --btn-secondary-fg: var(--fg-primary);
+  --btn-secondary-border: var(--border-subtle);
+
+  /* Component - Cards */
+  --card-bg: rgba(17, 24, 34, 0.88);
+  --card-border: rgba(255,255,255,0.1);
+  --card-radius: 18px;
+  --card-padding: 14px 14px 16px;
+
+  /* Typography */
+  --text-xs: 11px;
+  --text-sm: 12.5px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.45);
+  --shadow-glow: 0 0 24px rgba(20,184,166,0.18);
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+  --transition-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 #breakex-container {
   all: initial;
   position: fixed;
@@ -7,54 +79,56 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  gap: var(--space-3);
+  font-family: var(--font-sans);
   pointer-events: none; /* Allow clicks to pass through container to cards */
 }
 
 #breakex-container .breakex-card {
   all: initial;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   display: flex;
   flex-direction: column;
   width: 260px;
-  border-radius: 18px;
+  border-radius: var(--card-radius);
   overflow: hidden;
-  background: rgba(20, 22, 34, 0.72);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--card-border) inset;
+  border: 1px solid var(--card-border);
   opacity: 0;
   transform: translateY(-10px) scale(0.98);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.35s var(--transition-spring), transform 0.35s var(--transition-spring), box-shadow var(--transition-base);
   pointer-events: auto; /* Cards receive clicks */
 }
 
 #breakex-container .breakex-card.breakex-card-in {
   opacity: 1;
   transform: translateY(0) scale(1);
+  box-shadow: var(--shadow-lg), 0 0 0 1px var(--card-border) inset;
 }
 
 #breakex-container .breakex-card.breakex-card-out {
   opacity: 0;
   transform: translateY(-8px) scale(0.97);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 #breakex-container .breakex-media {
   width: 100%;
-  height: 130px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.04);
   overflow: hidden;
 }
 
 #breakex-container .breakex-media-emoji span {
-  font-size: 44px;
+  font-size: 48px;
   line-height: 1;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
 }
 
 #breakex-container .breakex-media img {
@@ -66,7 +140,7 @@
 
 #breakex-container .breakex-fade-img {
   opacity: 0;
-  animation: breakex-img-fade 1.4s ease forwards;
+  animation: breakex-img-fade 1.2s ease forwards;
 }
 
 #breakex-container .breakex-svg {
@@ -88,30 +162,30 @@
 }
 
 #breakex-container .breakex-body {
-  padding: 14px 14px 16px;
+  padding: var(--space-3) var(--space-3) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 #breakex-container .breakex-title {
-  color: #ffffff;
-  font-size: 15px;
+  color: var(--color-fg);
+  font-size: var(--text-lg);
   font-weight: 600;
   letter-spacing: 0.2px;
 }
 
 #breakex-container .breakex-subtitle {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 12px;
-  margin-bottom: 8px;
+  color: var(--color-fg-dim);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-2);
 }
 
 #breakex-container .breakex-actions {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
 }
 
 #breakex-container .breakex-btn {
@@ -119,34 +193,40 @@
   box-sizing: border-box;
   width: 100%;
   text-align: center;
-  padding: 9px 10px;
-  border-radius: 10px;
-  font-size: 13px;
+  padding: var(--space-3) var(--space-3);
+  border-radius: 12px;
+  font-size: var(--text-base);
   font-weight: 600;
   cursor: pointer;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: background 0.15s ease, transform 0.1s ease;
+  color: var(--btn-primary-fg);
+  background: var(--btn-primary-bg);
+  border: 1px solid rgba(34,197,94,0.3);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 #breakex-container .breakex-btn:hover {
-  background: rgba(255, 255, 255, 0.24);
+  background: #16a34a; /* success-600 */
+  box-shadow: 0 0 16px rgba(34,197,94,0.3);
 }
 
 #breakex-container .breakex-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
-#breakex-container .breakex-btn-done {
-  background: rgba(76, 217, 145, 0.28);
-  border-color: rgba(76, 217, 145, 0.45);
+#breakex-container .breakex-btn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
-#breakex-container .breakex-btn-done:hover {
-  background: rgba(76, 217, 145, 0.42);
+#breakex-container .breakex-btn-snooze {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-fg);
+  border: 1px solid var(--btn-secondary-border);
+}
+
+#breakex-container .breakex-btn-snooze:hover {
+  background: var(--bg-hover);
+  box-shadow: none;
 }
 
 /* ==========================================================================
@@ -173,28 +253,28 @@
     right: 4px;
     left: 4px;
     top: env(titlebar-area-height, 56px);
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   #breakex-container .breakex-media {
-    height: 100px;
+    height: 110px;
   }
 
   #breakex-container .breakex-body {
-    padding: 12px 12px 14px;
+    padding: var(--space-2) var(--space-2) var(--space-3);
   }
 
   #breakex-container .breakex-title {
-    font-size: 14px;
+    font-size: var(--text-base);
   }
 
   #breakex-container .breakex-subtitle {
-    font-size: 11.5px;
+    font-size: var(--text-xs);
   }
 
   #breakex-container .breakex-btn {
-    padding: 8px 8px;
-    font-size: 12.5px;
+    padding: var(--space-2) var(--space-2);
+    font-size: var(--text-sm);
   }
 }
 
@@ -202,15 +282,15 @@
 @media (max-height: 500px) and (orientation: landscape) {
   #breakex-container {
     top: env(titlebar-area-height, 48px);
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   #breakex-container .breakex-media {
-    height: 80px;
+    height: 90px;
   }
 
   #breakex-container .breakex-body {
-    padding: 10px 12px 12px;
+    padding: var(--space-2) var(--space-3) var(--space-3);
   }
 }
 
@@ -246,9 +326,9 @@
     color: #000;
   }
 
-  #breakex-container .breakex-btn-done {
-    background: #0f0;
-    border-color: #0f0;
+  #breakex-container .breakex-btn-snooze {
+    background: #fff;
     color: #000;
+    border-color: #fff;
   }
 }

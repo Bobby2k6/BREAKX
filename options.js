@@ -28,13 +28,7 @@ async function loadAlerts() {
   const res = await chrome.runtime.sendMessage({ type: "GET_ALERTS" });
   alerts = res.alerts || [];
   renderList();
-
-  const params = new URLSearchParams(location.search);
-  const editId = params.get("edit");
-  if (editId) {
-    const alert = alerts.find((a) => a.id === editId);
-    if (alert) startEdit(alert);
-  }
+  resetForm();
 }
 
 function renderList() {
@@ -56,18 +50,36 @@ function renderList() {
         <div class="brx-o-row" data-id="${a.id}">
           <div class="brx-o-thumb">${thumb}</div>
           <div class="brx-o-meta">
-            <div class="brx-o-name">${escapeHtml(a.name)} ${a.isDefault ? '<span class="brx-o-badge">default</span>' : ""}</div>
+            <div class="brx-o-name">${escapeHtml(a.name)} ${a.isDefault ? '<span class="brx-o-badge">Default</span>' : ""}</div>
             <div class="brx-o-sub">Every ${a.durationMinutes} min · ${a.active ? "Active" : "Paused"}</div>
           </div>
           <div class="brx-o-row-actions">
             <button data-action="toggle" title="${a.active ? "Pause" : "Resume"}">${a.active ? "⏸" : "▶"}</button>
+            <button data-action="reset" title="Reset timer">⟳</button>
             <button data-action="edit" title="Edit">✎</button>
-            <button data-action="delete" title="Delete">✕</button>
           </div>
         </div>
       `;
     })
     .join("");
+}
+
+function resetForm() {
+  form.reset();
+  alertIdInput.value = "";
+  // IMPORTANT: Set to undefined to signal "no change" for existing alert,
+  // but we need to track if user explicitly cleared the file.
+  // The form is now in "add new" mode, so no file should be attached.
+  pendingFileDataUrl = undefined;
+  pendingFileType = undefined;
+  pendingFileUrl = undefined;
+  fileInput.value = "";
+  filePreview.hidden = true;
+  filePreviewImg.src = "";
+  formTitle.textContent = "Manage Breaks";
+  submitBtn.textContent = "Save Break";
+  cancelEditBtn.hidden = true;
+  history.replaceState(null, "", "options.html");
 }
 
 function startEdit(alert) {
@@ -76,7 +88,6 @@ function startEdit(alert) {
   durationInput.value = alert.durationMinutes;
   pendingFileDataUrl = undefined;
   pendingFileType = undefined;
-  // Also track fileUrl for default assets
   pendingFileUrl = alert.fileUrl || undefined;
   fileInput.value = "";
 
@@ -93,24 +104,6 @@ function startEdit(alert) {
   submitBtn.textContent = "Update Break";
   cancelEditBtn.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function resetForm() {
-  form.reset();
-  alertIdInput.value = "";
-  // IMPORTANT: Set to undefined to signal "no change" for existing alert,
-  // but we need to track if user explicitly cleared the file.
-  // The form is now in "add new" mode, so no file should be attached.
-  pendingFileDataUrl = undefined;
-  pendingFileType = undefined;
-  pendingFileUrl = undefined;
-  fileInput.value = "";
-  filePreview.hidden = true;
-  filePreviewImg.src = "";
-  formTitle.textContent = "Add a new break";
-  submitBtn.textContent = "Save Break";
-  cancelEditBtn.hidden = true;
-  history.replaceState(null, "", "options.html");
 }
 
 fileInput.addEventListener("change", () => {
@@ -192,15 +185,11 @@ listEl.addEventListener("click", async (e) => {
     const res = await chrome.runtime.sendMessage({ type: "TOGGLE_ALERT", id });
     alerts = res.alerts || alerts;
     renderList();
+  } else if (action === "reset") {
+    await chrome.runtime.sendMessage({ type: "RESET_ALERT", id });
+    loadAlerts();
   } else if (action === "edit") {
     if (alert) startEdit(alert);
-  } else if (action === "delete") {
-    if (confirm(`Delete "${alert ? alert.name : "this break"}"?`)) {
-      const res = await chrome.runtime.sendMessage({ type: "DELETE_ALERT", id });
-      alerts = res.alerts || alerts;
-      renderList();
-      if (alertIdInput.value === id) resetForm();
-    }
   }
 });
 

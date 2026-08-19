@@ -51,8 +51,7 @@ function render() {
           </div>
           <div class="brx-actions">
             <button class="brx-icon-btn" data-action="toggle" title="${a.active ? "Pause" : "Resume"}">${a.active ? "⏸" : "▶"}</button>
-            <button class="brx-icon-btn" data-action="edit" title="Edit">✎</button>
-            <button class="brx-icon-btn" data-action="delete" title="Delete">✕</button>
+            <button class="brx-icon-btn" data-action="reset" title="Reset timer">⟳</button>
           </div>
         </div>
       `;
@@ -94,16 +93,9 @@ listEl.addEventListener("click", async (e) => {
     const res = await chrome.runtime.sendMessage({ type: "TOGGLE_ALERT", id });
     alerts = res.alerts || alerts;
     render();
-  } else if (action === "delete") {
-    const alert = alerts.find((a) => a.id === id);
-    const label = alert ? alert.name : "this break";
-    if (confirm(`Delete "${label}"?`)) {
-      const res = await chrome.runtime.sendMessage({ type: "DELETE_ALERT", id });
-      alerts = res.alerts || alerts;
-      render();
-    }
-  } else if (action === "edit") {
-    chrome.tabs.create({ url: chrome.runtime.getURL(`options.html?edit=${encodeURIComponent(id)}`) });
+  } else if (action === "reset") {
+    await chrome.runtime.sendMessage({ type: "RESET_ALERT", id });
+    loadAlerts();
   }
 });
 
